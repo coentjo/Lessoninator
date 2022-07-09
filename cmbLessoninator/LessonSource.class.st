@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'name',
-		'path'
+		'path',
+		'extensions'
 	],
 	#category : #cmbLessoninator
 }
@@ -14,6 +15,26 @@ LessonSource class >> named: aString path: aDirectory [
 		name: aString ;
 		path: aDirectory ;
 		yourself 
+]
+
+{ #category : #lessons }
+LessonSource >> colorFor: aFileReference [ 
+	^aFileReference isDirectory 
+		ifTrue: [ Color lightGray ]
+		ifFalse: 
+			[ extensions 
+				at: aFileReference path extension 
+				ifAbsent: [ Color gray  ]]
+]
+
+{ #category : #accessing }
+LessonSource >> docsPath [
+	^ path 
+]
+
+{ #category : #accessing }
+LessonSource >> extensions: aCollection [ 
+	extensions := aCollection
 ]
 
 { #category : #lessons }
@@ -38,9 +59,7 @@ LessonSource >> path: aFileLocator [
 { #category : #lessons }
 LessonSource >> visualizeLessons [ 
 
-| docsPath canvas nodes |
-
-docsPath := FileLocator home / 'git' / 'softwarematerial' / 'docs'. 
+|  canvas nodes |
 
 canvas := RSCanvas new.
 
@@ -50,10 +69,10 @@ canvas := RSCanvas new.
 	canvas add: node ]. "
 
 nodes := RSEllipse 
-	models: docsPath allChildren  
+	models: self docsPath allChildren  
 	forEach: [ :ellipse :model |
 		ellipse size: 10;
-		color: Color black ].
+		color: (self colorFor: model) ].
 canvas addAll: nodes.
 
 RSLineBuilder line
