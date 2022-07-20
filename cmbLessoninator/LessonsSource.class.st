@@ -96,9 +96,10 @@ LessonsSource >> path: aFileLocator [
 { #category : #lessons }
 LessonsSource >> visualizeLessons [ 
 
-|  canvas nodes |
+|  canvas nodes scale |
 
 canvas := RSCanvas new.
+scale := NSScale category20c .
 
 "docsPath allChildren do: [ :aFile | 
 	| node |
@@ -109,7 +110,7 @@ nodes := RSEllipse
 	models: self docsPath allChildren  
 	forEach: [ :ellipse :model |
 		ellipse size: 10;
-		color: (self colorFor: model) ].
+		color: (scale scale: model extension) "(self colorFor: model)" ].
 canvas addAll: nodes.
 
 RSLineBuilder line
@@ -132,8 +133,7 @@ RSForceBasedLayout new
 	on: canvas nodes.
 
 canvas
-	@ RSCanvasController ; 
-	open. 
+	@ RSCanvasController .
 	
 ^ canvas
 	
