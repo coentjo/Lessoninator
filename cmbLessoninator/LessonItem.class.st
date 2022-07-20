@@ -17,14 +17,15 @@ LessonItem class >> on: aFileRef [
 
 { #category : #accessing }
 LessonItem >> color [
-
-	| extension dict |
+^ self fileReference extension
+"	| extension dict |
 	fileReference isDirectory ifTrue: [ ^ Color lightGray ].
 	extension := fileReference extension.
 	dict := { 
-		        ('md' -> Color orange lighter ).
-		        'pdf' -> Color orange darker  } asDictionary.
-	^ dict at: extension ifAbsent: [ Color green ]
+		        'md' -> Color orange lighter .
+		        'pdf' -> Color orange darker  
+			} asDictionary.
+	^ dict at: extension ifAbsent: [ Color green ] "
 ]
 
 { #category : #accessing }

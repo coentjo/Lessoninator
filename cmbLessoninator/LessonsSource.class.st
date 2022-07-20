@@ -143,17 +143,18 @@ canvas
 { #category : #'instance creation' }
 LessonsSource >> visualizeLessonsSource [
 
-| canvas nodes |
+| canvas nodes scale |
 canvas := RSCanvas new.
 lessonItems := path allChildren collect: [ :fileRef  | fileRef asLessonItem].
-lessonItems do: [ :item | 
-	item findParentLessonItemIn: lessonItems  ]. 
+lessonItems do: [ :item | item findParentLessonItemIn: lessonItems  ]. 
+
+scale := NSScale category20c .
 
 nodes := RSEllipse 
 	models: lessonItems
 	forEach: [ :ellipse :model |
 		ellipse size: 10;
-		color: model color ].
+		color: (scale scale: model color )].
 	
 canvas addAll: nodes.
 
