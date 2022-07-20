@@ -34,19 +34,30 @@ LessonItem >> fileRef: aFileReference [
 
 { #category : #accessing }
 LessonItem >> fileReference [
-	^ fileReference
+	^ fileReference ifNil: '[-]'
 ]
 
 { #category : #accessing }
-LessonItem >> findParentLessonItemIn: aCollectionOfLessonItems [ 
+LessonItem >> findParentLessonItemIn: aCollectionOfLessonItems [
+
 	"My parent should be the LessonItem for the parent-fileReference of my fileReference "
+
 	| parentFileRef |
-	parentFileRef := fileReference parent . 
-	aCollectionOfLessonItems do: [ :potentialParentLessonItem |
-		potentialParentLessonItem fileReference == parentFileRef ifTrue: [ parent := potentialParentLessonItem   ] ]
+	parentFileRef := fileReference parent.
+	aCollectionOfLessonItems do: [ :potentialParentLessonItem | 
+		potentialParentLessonItem fileReference = parentFileRef ifTrue: [ 
+			parent := potentialParentLessonItem ] ]
 ]
 
 { #category : #accessing }
 LessonItem >> parent [
-	^ fileReference parent
+	^  parent
+]
+
+{ #category : #converting }
+LessonItem >> printOn: aStream [
+
+	aStream
+		nextPutAll: 'LessonsSource_on_';
+		nextPutAll: self fileReference basename asString
 ]
